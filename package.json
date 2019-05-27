@@ -1,0 +1,40 @@
+{
+  "name": "kofo-wallet",
+  "version": "1.0.0",
+  "description": "Kofo network supports blockchain wallet, which provides signature and private key management",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drunken005/kofo-wallet.git"
+  },
+  "keywords": [
+    "wallet",
+    "blockchain",
+    "kofo",
+    "zil",
+    "eos",
+    "btc",
+    "tron",
+    "bos",
+    "meetone",
+    "eth",
+    "bos"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drunken005/kofo-wallet/issues"
+  },
+  "homepage": "https://github.com/drunken005/kofo-wallet#readme",
+  "dependencies": {
+    "@zilliqa-js/zilliqa": "^0.5.3",
+    "bitcore-lib": "^8.3.0",
+    "eosjs-ecc": "^4.0.4",
+    "ethers": "^4.0.27",
+    "lodash": "^4.17.11",
+    "tslib": "^1.9.3"
+  }
+}
