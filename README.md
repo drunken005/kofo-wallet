@@ -79,7 +79,12 @@ wallet[chian].export()
 ### publicToAddress(chain, currency, publicKey, network)
 ```js
 const KofoWallet = require('kofo-wallet');
-let ethAddress = KofoWallet.publicToAddress('ETH','ETH','0x047ee4370138916819d252686cdee323c5a01c2a203e00eb3b3fb588df9c79562601615e6969375f7bea207b6051940994d1e45fc221b3073ce2a5b97dc20349b9')
 
-let btcAddress = KofoWallet.publicToAddress('BTC','BTC','0223d4f4413e8f48afdbf1e2d17f5ca17b50a4685f7db7e7c4b0ce6f286b160bf6','testnet')
+//ETH public key to address
+KofoWallet.publicToAddress('ETH','ETH','0x047ee4370138916819d252686cdee323c5a01c2a203e00eb3b3fb588df9c79562601615e6969375f7bea207b6051940994d1e45fc221b3073ce2a5b97dc20349b9')
+
+//BTC public key to address
+KofoWallet.publicToAddress('BTC','BTC','0223d4f4413e8f48afdbf1e2d17f5ca17b50a4685f7db7e7c4b0ce6f286b160bf6','testnet')
+
+...
 ```
