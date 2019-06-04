@@ -2,3 +2,5 @@ node_modules/
 .idea/
 .idea/vcs.xml
 package-lock.json
+test.js
+.DS_Store

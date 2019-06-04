@@ -1,80 +1,138 @@
-const KofoWallet = require('../lib/index');
-const privateKyes = {
-    BTC: 'd52be60fde396447f86655476a5b082dd80c1dbda104242a677cdd8ebca2190b',
-    ETH: '07FED02BDB20EFE5297445472E2AD0647C9E288A5E28A4E0C7C18CEEFC09B470',
-    EOS: '5JSRAcfALhELVvTK59umFEXSzY4MkBCL3SPajSZw1BqHyoLtH79',
-    ZIL: 'db11cfa086b92497c8ed5a4cc6edb3a5bfe3a640c43ffb9fc6aa0873c56f2ee3',
-    MEETONE: '5KV3PL9r5vCc7WNY57z4FyPomYsCmbyJnom2NXgL1DuW7sMmuwu',
-    BOS: '5Kf6mvV1tYLSnsovxcyTz3FG62KkpwZguPRniKe6YVgjb9q8bus'
-};
+const KofoWallet = require('../src/index');
 
-let runTest = async () => {
-    let kofoWallet = new KofoWallet();
-    kofoWallet.importPrivateKey('BTC', 'BTC', privateKyes.BTC, 'testnet');
-    kofoWallet.importPrivateKey('ETH', 'ETH', privateKyes.ETH);
-    kofoWallet.importPrivateKey('EOS', 'EOS', privateKyes.EOS);
-    kofoWallet.importPrivateKey('ZIL', 'ZIL', privateKyes.ZIL);
-    kofoWallet.importPrivateKey('MEETONE', 'MEETONE', privateKyes.MEETONE);
-    kofoWallet.importPrivateKey('BOS', 'BOS', privateKyes.BOS);
+async function runTest() {
+    const ethRawTransaction = '0xf88e0c8501dcd650008304baf094cdfe62b84e8e2c1bf0888b20fe875799a3a82f9487010dc639bbb800b864a80de0e800000000000000000000000064972593901e8c014ec5d39dfa8d879a3ba62bfdfe38c3e0af6375b3d9eb38d74931c277638cc655aa4a01e618b256950ee8643b0000000000000000000000000000000000000000000000000000000000723279';
+    const ethKeystorePwd = '123456zxc';
+
+    console.log('========================================ETH========================================');
+    let wallet = KofoWallet.createWallet({chain: 'ETH', currency: 'ETH'});
+    let mnemonic = wallet.export().mnemonic;
+    console.log(`\nCreate ${wallet.export().chain} wallet:`);
+    console.log(wallet.export());
+
+    let signed = await wallet.sign(ethRawTransaction);
+    console.log(`\n ${wallet.export().chain} wallet sign result:`);
+    console.log(signed);
 
 
-    //BTC sign rawTransaction
-    let btcRawTransaction = [
-        "0d731f21f86772532d348e2859076e5e2bd6fd9ea0d39bdca71695d809a7e8e3",
-        "85c97bd4a3dd637a311cd8aadf688c4a772bece3a5c9e5f0ce28f10f0a7a1baf"
-    ];
-    let signedBtcTx = await kofoWallet.BTC.sign(btcRawTransaction);
-    console.log('\nBTC signed transaction:');
-    console.log(signedBtcTx);
-
-    //ETH sign rawTransaction
-    let ethRawTx = '0xf89082013c84773594008304baf094b90167de8ce070d2fb9ed981648e227257a3ff5388016345785d8a0000b864a80de0e8000000000000000000000000c0f605f2e4ca4fbe3188565e3b6a8504ee76e58001035cfe42867f3041be08a17d372da40fe718cb9b2a44bfded99e0c31481459000000000000000000000000000000000000000000000000000000000043b269';
-    let signedEthTx = await kofoWallet.ETH.sign(ethRawTx);
-    console.log('\nETH signed transaction:');
-    console.log(signedEthTx);
-
-    //EOS sign rawTransaction
-    let eosRawTransaction = [
-        "fb29d54116e926a20e23750fc220c93dcbf528774bb5d39188ae0be3750d1492"
-    ];
-    let signedEosTx = await kofoWallet.EOS.sign(eosRawTransaction);
-    console.log('\nEOS signed transaction:');
-    console.log(signedEosTx);
-
-    //BOS sign rawTransaction
-    let bosRawTransaction = [
-        "fb29d54116e926a20e23750fc220c93dcbf528774bb5d39188ae0be3750d1492"
-    ];
-    let signedBosTx = await kofoWallet.BOS.sign(bosRawTransaction);
-    console.log('\nBOS signed transaction:');
-    console.log(signedBosTx);
-
-    //MEETONE sign rawTransaction
-    let meetoneRawTransaction = [
-        "fb29d54116e926a20e23750fc220c93dcbf528774bb5d39188ae0be3750d1492"
-    ];
-    let signedMeetoneTx = await kofoWallet.MEETONE.sign(meetoneRawTransaction);
-    console.log('\nMEETONE signed transaction:');
-    console.log(signedMeetoneTx);
+    let keystore = await wallet.exportKeyStore(ethKeystorePwd);
+    console.log(`\nWallet.exportKeyStore MnemonicWallet ${wallet.export().chain}...............`);
+    console.log(keystore);
 
 
-    let zilRawTransaction = {
-        "amount": "0",
-        "code": "",
-        "data": "{\"_tag\":\"changeAdminAddress\",\"params\":[{\"type\":\"ByStr20\",\"value\":\"0x7b5f2006dcd9ec22a9f8b7d7c6e34338331b6a86\",\"vname\":\"adminAddress\"}]}",
-        "gasLimit": "2000",
-        "gasPrice": "1000000000",
-        "nonce": "321",
-        "senderPubKey": "03d8e6450e260f80983bcd4fadb6cbc132ae7feb552dda45f94b48c80b86c6c3be",
-        "toAddr": "6f18B3a0fc9f232eA9Ef951b5e741895e24B15f5",
-        "version": "21823496"
-    };
-    let signedZilTx = await kofoWallet.ZIL.sign(JSON.stringify(zilRawTransaction));
-    console.log('\nZIL signed transaction:');
-    console.log(signedZilTx);
-    console.log('\n');
+    wallet = await KofoWallet.importKeyStoreWallet({
+        chain: 'ETH',
+        currency: 'ETH',
+        data: keystore,
+        password: ethKeystorePwd
+    });
+    console.log(`\nImport KeyStoreWallet MnemonicWallet  ${wallet.export().chain}............`);
+    console.log(wallet.export());
 
-    console.log('kofo wallet providers: ', kofoWallet);
-};
+    signed = await wallet.sign(ethRawTransaction);
+    console.log(`\n${wallet.export().chain} wallet sign result:`);
+    console.log(signed);
 
+
+    wallet = KofoWallet.importPrivateWallet({chain: 'ETH', currency: 'ETH', privateKey: wallet.export().privateKey});
+    console.log(`\nImport Private ${wallet.export().chain} wallet:`);
+    console.log(wallet.export());
+
+    signed = await wallet.sign(ethRawTransaction);
+    console.log(`\n${wallet.export().chain} wallet sign result:`);
+    console.log(signed);
+
+    wallet = KofoWallet.importMnemonicWallet({chain: 'ETH', currency: 'ETH', mnemonic});
+    console.log(`\nImport Mnemonic ${wallet.export().chain} wallet:`);
+    console.log(wallet.export());
+
+    signed = await wallet.sign(ethRawTransaction);
+    console.log(`\n${wallet.export().chain} wallet sign result:`);
+    console.log(signed);
+
+    let address = KofoWallet.publicToAddress({chain: 'ETH', currency: 'ETH', publicKey: wallet.export().publicKey});
+    console.log(`\n${wallet.export().chain} publicToAddress publicKey:${wallet.export().publicKey}`);
+    console.log(address, address === wallet.export().address);
+
+
+    console.log('========================================ETH========================================end\n\n');
+
+
+    console.log('========================================BTC========================================');
+
+
+    wallet = KofoWallet.createWallet({chain: 'BTC', currency: 'BTC'});
+    mnemonic = wallet.export().mnemonic;
+    console.log(`\n KofoWallet.createWallet BTC P2PKH....................................:`);
+    console.log(wallet.export());
+
+
+    wallet = KofoWallet.importMnemonicWallet({chain: 'BTC', currency: 'BTC', mnemonic, walletType: 'P2SH'});
+    console.log('\nWallet.importMnemonicWallet BTC P2SH....................................:');
+    console.log(wallet.export());
+
+    console.log('\nWallet.publicKey2address BTC P2SH....................................:');
+    console.log(KofoWallet.publicToAddress({
+        chain: 'BTC',
+        currency: 'BTC',
+        publicKey: wallet.export().publicKey,
+        walletType: 'P2SH'
+    }));
+
+
+    wallet = KofoWallet.importMnemonicWallet({chain: 'BTC', currency: 'BTC', mnemonic});
+    console.log('\nWallet.importMnemonicWallet BTC P2PKH....................................:');
+    console.log(wallet.export());
+
+
+    wallet = KofoWallet.importPrivateWallet({chain: 'BTC', currency: 'BTC', privateKey: wallet.export().privateKey});
+    console.log('\nWallet.importPrivateWallet BTC P2PKH....................................:');
+    console.log(wallet.export());
+
+    console.log('\nWallet.publicKey2address....................................P2PKH:');
+    console.log(KofoWallet.publicToAddress({chain: 'BTC', currency: 'BTC', publicKey: wallet.export().publicKey}));
+
+
+    wallet = KofoWallet.importPrivateWallet({
+        chain: 'BTC',
+        currency: 'BTC',
+        privateKey: 'KxWWBrVMzr87YMj3oj9z7viDWagiMMP4Znw6iRKAuF7utkQeo22D',
+        walletType: 'P2SH'
+    });
+    console.log('\nWallet.importPrivateWallet P2SH....................................:');
+    console.log(wallet.export());
+
+    wallet = KofoWallet.importPrivateWallet({
+        chain: 'BTC',
+        currency: 'BTC',
+        privateKey: 'L4djGpF8XrBoNQKitkT4S398Q8NijEzcdWayGPCS4hXnMDMTfbk2',
+        walletType: 'P2SH'
+    });
+    console.log('\nWallet.importPrivateWallet P2SH....................................:');
+    console.log(wallet.export());
+
+    wallet = KofoWallet.importPrivateWallet({
+        chain: 'BTC',
+        currency: 'BTC',
+        privateKey: 'L4djGpF8XrBoNQKitkT4S398Q8NijEzcdWayGPCS4hXnMDMTfbk2'
+    });
+    console.log('\nWallet.importPrivateWallet P2PKH....................................:');
+    console.log(wallet.export());
+
+    signed = wallet.sign([
+        "fae236fc785645e5f9bce9a029bb594c8c87bb90f308c5b59837535b65750f4b"
+    ]);
+    console.log(`\n${wallet.export().chain} wallet sign result:`);
+    console.log(signed);
+
+
+    wallet = KofoWallet.createWallet({chain: 'BTC', currency: 'BTC', walletType: 'P2SH'});
+    console.log(`\n KofoWallet.createWallet BTC P2SH....................................:`);
+    console.log(wallet.export());
+    console.log('========================================BTC========================================end\n\n');
+
+
+
+
+}
 runTest().catch(console.log);
