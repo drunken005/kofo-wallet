@@ -39,8 +39,15 @@ class BaseWallet {
     }
 
     async sign(data) {
-        let transaction = utils.parseTransaction(data);
-        return await this.wallet.sign(transaction);
+        if (Array.isArray(data)) {
+            let signature = [];
+            for (let message of data) {
+                signature.push(ecc.signHash(message, this.privateKey));
+            }
+            return signature;
+        } else {
+            return ecc.signHash(data, this.privateKey);
+        }
     }
 
     export() {
@@ -132,30 +139,6 @@ class Wallet {
 }
 
 module.exports = Wallet;
-
-//Test code
-/*
-const Identifier = require('../../identifier');
-let identifier = new Identifier('EOS', 'EOS');
-
-let wallet = Wallet.createWallet({identifier});
-console.log('\nWallet.createWallet....................................:');
-console.log(wallet.export());
-console.log('\n');
-
-
-wallet = Wallet.importMnemonicWallet({identifier, mnemonic: wallet.export().mnemonic});
-console.log('\nWallet.importMnemonicWallet....................................:');
-console.log(wallet.export());
-console.log('\n');
-
-
-wallet = Wallet.importPrivateWallet({identifier, privateKey: wallet.export().privateKey});
-console.log('\nWallet.importPrivateWallet....................................:');
-console.log(wallet.export());
-console.log('\n');
-
-*/
 
 
 

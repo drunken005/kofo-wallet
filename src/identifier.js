@@ -16,13 +16,6 @@ class Identifier {
         return Boolean(this.chain !== this.currency);
     }
 
-    headers(){
-        return {
-            chain:    this.chain,
-            currency: this.currency,
-        };
-    }
-
     export(){
         return {
             chain:    this.chain,

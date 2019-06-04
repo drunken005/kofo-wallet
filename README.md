@@ -14,7 +14,7 @@ import KofoWallet from 'kofo-wallet';
 
 ## Test
 ```
-npm run test
+npm test
 ```
 
 ## API

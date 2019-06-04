@@ -142,7 +142,6 @@ class BaseWallet {
 class PrivateWallet extends BaseWallet {
     constructor(options) {
         super(options);
-        console.log(this);
         this.wallet = new Bitcore.PrivateKey(options.privateKey, this.network);
     }
 }
@@ -213,69 +212,3 @@ class Wallet {
 }
 
 module.exports = Wallet;
-
-//Test code
-/*
-
-const Identifier = require('../../identifier');
-let identifier = new Identifier('BTC', 'BTC');
-
-let wallet = Wallet.createWallet({identifier});
-const mnemonic = wallet.export().mnemonic; //'warrior volcano auction innocent sign keen horn purity canal easy fade blanket';//
-console.log('\nWallet.createWallet....................................:');
-console.log(wallet.export());
-console.log('\n');
-
-
-wallet = Wallet.importMnemonicWallet({identifier, mnemonic, walletType: 'P2SH'});
-console.log('\nWallet.importMnemonicWallet....................................:');
-console.log(wallet.export());
-console.log('\n');
-
-console.log('\nWallet.publicKey2address....................................P2SH:');
-console.log(Wallet.publicKey2address({
-    publicKey: wallet.export().publicKey,
-    network: 'livenet',
-    walletType: 'P2SH'
-}));
-console.log('\n');
-
-
-wallet = Wallet.importMnemonicWallet({identifier, mnemonic});
-//
-console.log('\nWallet.importMnemonicWallet....................................:');
-console.log(wallet.export());
-console.log('\n');
-
-
-wallet = Wallet.importPrivateWallet({identifier, privateKey: wallet.export().privateKey});
-console.log('\nWallet.importPrivateWallet....................................:');
-console.log(wallet.export());
-console.log('\n');
-
-console.log('\nWallet.publicKey2address....................................P2PKH:');
-console.log(Wallet.publicKey2address({publicKey: wallet.export().publicKey, network: 'livenet'}));
-console.log('\n');
-
-
-
-wallet = Wallet.importPrivateWallet({identifier, privateKey:'KxWWBrVMzr87YMj3oj9z7viDWagiMMP4Znw6iRKAuF7utkQeo22D', walletType: 'P2SH'});
-console.log('\nWallet.importPrivateWallet....................................:');
-console.log(wallet.export());
-console.log('\n');
-
-wallet = Wallet.importPrivateWallet({
-    identifier,
-    privateKey: 'L4djGpF8XrBoNQKitkT4S398Q8NijEzcdWayGPCS4hXnMDMTfbk2',
-    walletType: 'P2SH'
-});
-console.log('\nWallet.importPrivateWallet P2SH....................................:');
-console.log(wallet.export());
-console.log('\n');
-
-
-wallet = Wallet.importPrivateWallet({identifier, privateKey: 'L4djGpF8XrBoNQKitkT4S398Q8NijEzcdWayGPCS4hXnMDMTfbk2'});
-console.log('\nWallet.importPrivateWallet P2PKH....................................:');
-console.log(wallet.export());
-console.log('\n');
-*/
