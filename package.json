@@ -1,6 +1,6 @@
 {
   "name": "kofo-wallet",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Kofo network supports blockchain wallet, which provides signature and private key management",
   "main": "src/index.js",
   "scripts": {

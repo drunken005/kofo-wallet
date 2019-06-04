@@ -135,7 +135,7 @@ publicKey = wallet.export().publicKey;
 KofoWallet.publicToAddress({chain: 'BTC', currency: 'BTC', publicKey: publicKey})
 
 //BTC P2SH
-wallet = KofoWallet.importMnemonicWallet({chain: 'BTC', currency: 'BTC',mnemonic: mnemonic, walletType: 'P2SH'});
+wallet = KofoWallet.createWallet({chain: 'BTC', currency: 'BTC', walletType: 'P2SH'});
 publicKey = wallet.export().publicKey;
 KofoWallet.publicToAddress({chain: 'BTC', currency: 'BTC', publicKey: publicKey, walletType: 'P2SH'})
 ```
