@@ -1,19 +1,12 @@
-const Mnemonic = require("./mnemonic/mnemonic");
 const Bitcore = require('bitcore-lib');
 const Bitcoin = require('bitcoinjs-lib');
+
+const Mnemonic = require("./mnemonic/mnemonic");
 const ECDSA = Bitcore.crypto.ECDSA;
 const Signature = Bitcore.crypto.Signature;
 const DEFAULT_NETWORK = 'livenet';
 const {p2sh: __p2sh__, p2wpkh: __p2wpkh__} = Bitcoin.payments;
 
-const WordsForLang = {
-    "en": Mnemonic.Words.ENGLISH,
-    "es": Mnemonic.Words.SPANISH,
-    "ja": Mnemonic.Words.JAPANESE,
-    "zh": Mnemonic.Words.CHINESE,
-    "fr": Mnemonic.Words.FRENCH,
-    "it": Mnemonic.Words.ITALIAN,
-};
 
 const _NETWORKS = {
     'livenet': Bitcoin.networks.bitcoin,
@@ -121,21 +114,6 @@ class BaseWallet {
         };
     }
 
-    static getMnemonic({language, mnemonic}) {
-        let _mnemonic;
-        let __language__ = WordsForLang[language];
-
-        if (!!mnemonic) {
-            _mnemonic = new Mnemonic(mnemonic);
-        } else {
-            _mnemonic = new Mnemonic(__language__);
-            while (!Mnemonic.isValid(_mnemonic.toString())) {
-                _mnemonic = new Mnemonic(__language__);
-            }
-        }
-
-        return _mnemonic;
-    }
 }
 
 
@@ -149,10 +127,7 @@ class PrivateWallet extends BaseWallet {
 class MnemonicWallet extends BaseWallet {
     constructor(options) {
         super(options);
-        this.instance = BaseWallet.getMnemonic({
-            language: this.language,
-            mnemonic: this.mnemonic,
-        });
+        this.instance = Mnemonic.getMnemonic(this.language, this.mnemonic);
         this.HDPrivateKey = this.instance.toHDPrivateKey(this.passphrase, this.network, this.path);
         this.wallet = this.HDPrivateKey.privateKey;
     }

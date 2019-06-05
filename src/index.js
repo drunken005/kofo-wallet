@@ -30,9 +30,9 @@ class KofoWallet {
     }
 
 
-    static async importKeyStoreWallet({chain, currency, data, password}) {
+    static async importKeyStoreWallet({chain, currency, keystore, password}) {
         let {instance, identifier} = KofoWallet.getIdentifier(chain, currency);
-        return await instance.importKeyStoreWallet({identifier, data, password});
+        return await instance.importKeyStoreWallet({identifier, keystore, password});
     }
 
     static publicToAddress({chain, currency, publicKey, network, walletType}) {

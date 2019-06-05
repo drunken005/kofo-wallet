@@ -1,14 +1,6 @@
 const ecc = require('eosjs-ecc');
 const Mnemonic = require('../btc/mnemonic/mnemonic');
 const bip32 = require('bip32');
-const WordsForLang = {
-    "en": Mnemonic.Words.ENGLISH,
-    "es": Mnemonic.Words.SPANISH,
-    "ja": Mnemonic.Words.JAPANESE,
-    "zh": Mnemonic.Words.CHINESE,
-    "fr": Mnemonic.Words.FRENCH,
-    "it": Mnemonic.Words.ITALIAN,
-};
 
 class BaseWallet {
     constructor({identifier, mnemonic, language, path}) {
@@ -64,21 +56,6 @@ class BaseWallet {
             path: this.path
         };
     }
-
-    static getMnemonic({language, mnemonic}) {
-        let _mnemonic;
-        let __language__ = WordsForLang[language];
-
-        if (!!mnemonic) {
-            _mnemonic = new Mnemonic(mnemonic);
-        } else {
-            _mnemonic = new Mnemonic(__language__);
-            while (!Mnemonic.isValid(_mnemonic.toString())) {
-                _mnemonic = new Mnemonic(__language__);
-            }
-        }
-        return _mnemonic;
-    }
 }
 
 class PrivateWallet extends BaseWallet {
@@ -92,10 +69,7 @@ class MnemonicWallet extends BaseWallet {
     constructor(options) {
         super(options);
 
-        this.instance = BaseWallet.getMnemonic({
-            language: this.language,
-            mnemonic: this.mnemonic,
-        });
+        this.instance = Mnemonic.getMnemonic(this.language, this.mnemonic);
         const seed = this.instance.toSeed();
         const root = bip32.fromSeed(seed);
         let BIP32 = root.derivePath(this.path);

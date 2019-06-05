@@ -3,13 +3,16 @@ const {BN, Long, units} = require('@zilliqa-js/util');
 const {Zilliqa} = require('@zilliqa-js/zilliqa');
 const CR = require('@zilliqa-js/crypto');
 const _ = require('lodash');
-
+const Mnemonic = require('../btc/mnemonic/mnemonic');
 
 class BaseWallet {
-    constructor({identifier, mnemonic, path}) {
+    constructor({identifier, mnemonic, language, path = 0}) {
         this.identifier = identifier;
-        this.path = path || "m/44'/313'/0'/0/0"; //More info on https://github.com/satoshilabs/slips/blob/master/slip-0044.md
+        this.pathIndex = path;
+        this.path = `m/44'/313'/0'/0/${this.pathIndex}`; //More info on https://github.com/satoshilabs/slips/blob/master/slip-0044.md
         this.mnemonic = mnemonic;
+        this.language = language || 'en';
+        this.wallet = new Zilliqa('').wallet;
     }
 
     get privateKey() {
@@ -28,19 +31,23 @@ class BaseWallet {
         return "";
     }
 
-    async sign(data) {
-        data = JSON.parse(data);
-        data.pubKey = data.senderPubKey || this.wallet.defaultAccount.publicKey;
-        data.amount = new BN(units.toQa((parseInt(data.amount) / 1000000000000).toString(), units.Units.Zil));
-        data.gasLimit = Long.fromNumber(parseInt(data.gasLimit));
-        data.gasPrice = units.toQa((parseInt(data.gasPrice) / 1000000).toString(), units.Units.Li);
-        let tx = new Transaction(data, null);
+    async sign(transaction) {
+
+        if (_.isString(transaction)) {
+            transaction = JSON.parse(transaction);
+        }
+
+        transaction.pubKey = transaction.senderPubKey || this.wallet.defaultAccount.publicKey;
+        transaction.amount = new BN(units.toQa((parseInt(transaction.amount) / 1000000000000).toString(), units.Units.Zil));
+        transaction.gasLimit = Long.fromNumber(parseInt(transaction.gasLimit));
+        transaction.gasPrice = units.toQa((parseInt(transaction.gasPrice) / 1000000).toString(), units.Units.Li);
+        let tx = new Transaction(transaction, null);
         let si = await this.wallet.sign(tx);
         let signed = _.omit(si.txParams, 'receipt');
         signed.gasLimit = signed.gasLimit.toString();
         signed.gasPrice = signed.gasPrice.toString();
         signed.amount = signed.amount.toString();
-        signed.senderPubKey = data.pubKey;
+        signed.senderPubKey = transaction.pubKey;
         return JSON.stringify(signed)
     }
 
@@ -55,26 +62,42 @@ class BaseWallet {
             path: this.path
         };
     }
+
+    async exportKeyStore(password) {
+        return await this.wallet.export(this.address, password);
+    }
 }
 
 class PrivateWallet extends BaseWallet {
     constructor(options) {
         super(options);
-        const zilliqa = new Zilliqa('');
-        zilliqa.wallet.addByPrivateKey(options.privateKey);
-        this.wallet = zilliqa.wallet;
+        this.wallet.addByPrivateKey(options.privateKey);
     }
 }
 
 class MnemonicWallet extends BaseWallet {
     constructor(options) {
         super(options);
-        throw new Error('Unimplemented')
+        this.instance = Mnemonic.getMnemonic(this.language, this.mnemonic);
+        this.wallet.addByMnemonic(this.instance.phrase, this.pathIndex);
     }
 
     get _mnemonic() {
-        return '';
+        return this.instance.phrase;
     }
+}
+
+class KeystoreWallet extends BaseWallet {
+    constructor(options) {
+        super(options);
+        this.keystore = options.keystore;
+        this.password = options.password;
+    }
+
+    async importKeyStoreWallet() {
+        await this.wallet.addByKeystore(this.keystore, this.password);
+    }
+
 }
 
 class Wallet {
@@ -91,7 +114,17 @@ class Wallet {
     }
 
     static importMnemonicWallet(options) {
-        throw new Error('Unimplemented')
+        if (!options.mnemonic) {
+            throw new Error(`Invalid mnemonic=${options.mnemonic}`);
+        }
+
+        return new MnemonicWallet(options);
+    }
+
+    static async importKeyStoreWallet({identifier, keystore, password}) {
+        let wallet = new KeystoreWallet({identifier, keystore, password});
+        await wallet.importKeyStoreWallet();
+        return wallet;
     }
 
     static publicToAddress({publicKey}) {
