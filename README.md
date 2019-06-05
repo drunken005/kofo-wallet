@@ -103,7 +103,7 @@ Currently only the ETH chain is supported.
 **options**:
 * `chain` Chain name
 * `currency`: Currency name
-* `data`: keystore json.
+* `keystore`: keystore json.
 * `password`: keystore password
 ```js
 let wallet = KofoWallet.createWallet({chain: 'ETH', currency: 'ETH'});
@@ -111,7 +111,7 @@ let keystore = await wallet.exportKeyStore('pwd');
 wallet = await KofoWallet.importKeyStoreWallet({
     chain: 'ETH',
     currency: 'ETH',
-    data: keystore,
+    keystore: keystore,
     password: 'pwd'
 });
 wallet.export()
