@@ -24,7 +24,7 @@ Print the current wallet support chain
 **return** String
 ```js
 Wallet.supportsChain
-//rerurn 'kofo wallet supports chain:< BTC ETH EOS ZIL MEETONE BOS >'
+//return 'kofo wallet supports chain:< BTC ETH EOS ZIL MEETONE BOS >'
 ```
 ### Wallet.createWallets(network, walletType)
 Create all support chain wallets at once
@@ -51,6 +51,7 @@ wallets.ZIL.export()
 ```
 ### Wallet.createWallet(options)
 Specify blockchain to create an HDWallet using mnemonic
+
 **options**:
  * **chain**  Chain name e.g ETH
  * **currency**  Currency name e.g ETH
@@ -77,6 +78,7 @@ wallet.export()
 
 ### Wallet.importMnemonicWallet(options)
 Import mnemonic word HDWallet
+
 **options**:
 * **chain** Chain name e.g ETH
 * **currency**: Currency name e.g ETH
@@ -104,6 +106,7 @@ wallet.export()
 
 ### Wallet.importPrivateKey(options)
 Import the wallet with the private key
+
 **options**:
 * **chain** Chain name e.g ETH
 * **currency**: Currency name e.g ETH
@@ -136,6 +139,7 @@ wallet.sign(rawTransaction);
 
 ### async Wallet.importKeyStoreWallet(options)
 Import the keystore encrypted file wallet, currently only ***ETH*** and ***ZIL*** are supported
+
 **options**:
 * **chain** Chain name e.g ETH
 * **currency**: Currency name e.g ETH
@@ -156,6 +160,7 @@ wallet.export()
 ```
 ### Wallet.publicToAddress(options)
 Takes public key hex-encoded string and returns the corresponding address
+
 **options**:
 * **chain** Chain name e.g ETH
 * **currency**: Currency name e.g ETH
