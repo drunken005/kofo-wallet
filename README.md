@@ -79,7 +79,7 @@ Specify blockchain to create an HDWallet using mnemonic
  * **network**  *[Optional]* BTC network only, default `"livenet"`
  * **language**  *[Optional]* Mnemonic language，default `"en"` english, supports [ENGLISH 'en', SPANISH 'es', JAPANESE 'ja', CHINESE 'zh', FRENCH 'fr', ITALIAN 'it']
  * **walletType**  *[Optional]* BTC network only，default `"P2PKH"`,  supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
- * **path**  *[Optional]* Mnemonic derive path, each chain has a different path and default path value. [More info](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+ * **path**  *[Optional]* Mnemonic derive path, each chain has a different path and default path value. [More info](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
 
 **returns** {MnemonicWallet}
 ```js
@@ -107,7 +107,7 @@ Import mnemonic word HDWallet
 * **language**: *[Optional]* Mnemonic language，default `"en"` english,
 * **network**: *[Optional]* BTC network only, default `"livenet"`
 * **walletType**: *[Optional]* BTC network only，default `"P2PKH"`, supports `"P2PKH"` and `"P2SH"`. [More info](https://en.bitcoin.it/wiki/Address)
-* **path**: *[Optional]* Mnemonic derive path. [More info](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+* **path**: *[Optional]* Mnemonic derive path. [More info](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
 
 **returns** {MnemonicWallet}
 ```js
