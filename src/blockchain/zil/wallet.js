@@ -31,6 +31,10 @@ class BaseWallet {
         return "";
     }
 
+    get _seed() {
+        return '';
+    }
+
     async sign(transaction) {
 
         if (_.isString(transaction)) {
@@ -52,17 +56,20 @@ class BaseWallet {
     }
 
     export() {
-        return {
-            chain: this.identifier.chain,
-            currency: this.identifier.currency,
+        let _export = this.identifier.export();
+        return Object.assign(_export, {
             privateKey: this.privateKey,
             publicKey: this.publicKey,
             address: this.address,
+
             mnemonic: this._mnemonic,
-            path: this.path
-        };
+            language: this.language,
+            path: this.path,
+            seed: this._seed
+        });
     }
 
+    //Exports the specified account as a keystore file.
     async exportKeyStore(password) {
         return await this.wallet.export(this.address, password);
     }
@@ -84,6 +91,10 @@ class MnemonicWallet extends BaseWallet {
 
     get _mnemonic() {
         return this.instance.phrase;
+    }
+
+    get _seed() {
+        return this.instance.toSeed().toString("hex");
     }
 }
 

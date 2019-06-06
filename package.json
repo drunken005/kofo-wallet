@@ -1,6 +1,6 @@
 {
   "name": "kofo-wallet",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Kofo network supports blockchain wallet, which provides signature and private key management",
   "main": "src/index.js",
   "scripts": {
@@ -37,7 +37,6 @@
     "bitcore-lib": "^8.3.3",
     "eosjs-ecc": "^4.0.4",
     "ethers": "^4.0.27",
-    "lodash": "^4.17.11",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

@@ -5,11 +5,12 @@ This wallet does not have any communication with the full nodes of each chain. I
 ## Install and import
 
 ```bash
-npm install kofo-wallet --save
+>$ npm i kofo-wallet --save
 ```
 ```js
-const KofoWallet = require('kofo-wallet');
-import KofoWallet from 'kofo-wallet';
+const Wallet = require('kofo-wallet');
+or
+import Wallet from 'kofo-wallet';
 ```
 
 ## Test
@@ -18,67 +19,101 @@ npm test
 ```
 
 ## API
-### createWallet(options)
+### Wallet.supportsChain
+Print the current wallet support chain
+**return** String
+```js
+Wallet.supportsChain
+//rerurn 'kofo wallet supports chain:< BTC ETH EOS ZIL MEETONE BOS >'
+```
+### Wallet.createWallets(network, walletType)
+Create all support chain wallets at once
+**params**:
+ * **network** *[Optional]* BTC network only, default `"livenet"`
+ * **walletType** *[Optional]* BTC network only，default `"P2PKH"`,  supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
+
+**returns** {MnemonicWallets}
+```js
+//btc wallet type 'P2PKH'
+let wallets = Wallet.createWallets();
+wallets.BTC.export()
+wallets.ETH.export()
+wallets.EOS.export()
+wallets.ZIL.export()
+
+//btc wallet type 'P2SH'
+wallets = Wallet.createWallets('livenet', 'P2SH');
+wallets.BTC.export()
+wallets.ETH.export()
+wallets.EOS.export()
+wallets.ZIL.export()
+```
+### Wallet.createWallet(options)
+Specify blockchain to create an HDWallet using mnemonic
 **options**:
-* `chain` Chain name
-* `currency`: Currency name
-* `network`: For BTC chain, default is `livenet`.
-* `passphrase`: Mnemonic passphrase
-* `language`: Mnemonic language default 'en'
-* `walletType`: For BTC chain, default is `P2PKH`, supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
-* `path`: Mnemonic path [more info](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+ * **chain**  Chain name e.g ETH
+ * **currency**  Currency name e.g ETH
+ * **network**  *[Optional]* BTC network only, default `"livenet"`
+ * **language**  *[Optional]* Mnemonic language，default `"en"` english, supports [ENGLISH 'en', SPANISH 'es', JAPANESE 'ja', CHINESE 'zh', FRENCH 'fr', ITALIAN 'it']
+ * **walletType**  *[Optional]* BTC network only，default `"P2PKH"`,  supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
+ * **path**  *[Optional]* Mnemonic derive path, each chain has a different path and default path value. [More info](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+
+**returns** {MnemonicWallet}
 ```js
 //create eth wallet
-let wallet = KofoWallet.createWallet({chain: 'ETH', currency: 'ETH'});
+let wallet = Wallet.createWallet({chain: 'ETH', currency: 'ETH'});
 wallet.export()
 
 //create btc wallet(P2PKH)
-wallet = KofoWallet.createWallet({chain: 'BTC', currency: 'BTC'});
+wallet = Wallet.createWallet({chain: 'BTC', currency: 'BTC'});
 wallet.export()
 
 //create btc wallet(P2SH)
-wallet = KofoWallet.createWallet({chain: 'BTC', currency: 'BTC', walletType: 'P2SH'});
+wallet = Wallet.createWallet({chain: 'BTC', currency: 'BTC', walletType: 'P2SH'});
 wallet.export()
 ```
 
 
-### importMnemonicWallet(options)
+### Wallet.importMnemonicWallet(options)
+Import mnemonic word HDWallet
 **options**:
-* `chain` Chain name
-* `currency`: Currency name
-* `mnemonic`: Mnemonic words
-* `passphrase`: Mnemonic passphrase
-* `language`: Mnemonic language default 'en'
-* `network`: For BTC chain, default is `livenet`.
-* `walletType`: For BTC chain, default is `P2PKH`, supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
-* `path`: Mnemonic path [more info](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+* **chain** Chain name e.g ETH
+* **currency**: Currency name e.g ETH
+* **mnemonic**: The mnemonic string
+* **language**: *[Optional]* Mnemonic language，default `"en"` english,
+* **network**: *[Optional]* BTC network only, default `"livenet"`
+* **walletType**: *[Optional]* BTC network only，default `"P2PKH"`, supports `"P2PKH"` and `"P2SH"`. [More info](https://en.bitcoin.it/wiki/Address)
+* **path**: *[Optional]* Mnemonic derive path. [More info](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+
+**returns** {MnemonicWallet}
 ```js
 const mnemonic = 'side evidence harbor proof soft december bind example immense give cancel oven';
 //import eth mnemonic hd wallet
-let wallet = KofoWallet.importMnemonicWallet({chain: 'ETH', currency: 'ETH', mnemonic: mnemonic});
+let wallet = Wallet.importMnemonicWallet({chain: 'ETH', currency: 'ETH', mnemonic: mnemonic});
 wallet.export()
 
 //import btc mnemonic hd wallet(P2PKH)
-wallet = KofoWallet.importMnemonicWallet({chain: 'BTC', currency: 'BTC', mnemonic:mnemonic});
+wallet = Wallet.importMnemonicWallet({chain: 'BTC', currency: 'BTC', mnemonic:mnemonic});
 wallet.export()
 
 //create btc mnemonic hd wallet(P2SH)
-wallet = KofoWallet.importMnemonicWallet({chain: 'BTC', currency: 'BTC',mnemonic: mnemonic, walletType: 'P2SH'});
+wallet = Wallet.importMnemonicWallet({chain: 'BTC', currency: 'BTC',mnemonic: mnemonic, walletType: 'P2SH'});
 wallet.export()
 ```
 
-### importPrivateKey(options)
-Specify the chain, currency, private key and network key to import the corresponding chain of private key wallet, import can be the chain of the raw transaction signature.
+### Wallet.importPrivateKey(options)
+Import the wallet with the private key
 **options**:
-* `chain` Chain name
-* `currency`: Currency name
-* `privateKey`: Mnemonic words
-* `network`: For BTC chain, default is `livenet`.
-* `walletType`: For BTC chain, default is `P2PKH`, supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
-* `path`: Mnemonic path [more info](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+* **chain** Chain name e.g ETH
+* **currency**: Currency name e.g ETH
+* **privateKey**: Wallet private key string
+* **network**: *[Optional]* BTC network only, default is `"livenet"`.
+* **walletType**: *[Optional]* BTC network only，default `"P2PKH"`, supports `"P2PKH"` and `"P2SH"`. [More info](https://en.bitcoin.it/wiki/Address)
+
+**returns** {PrivateWallet}
 ```js
 //Import ETH private wallet
-let wallet = KofoWallet.importPrivateWallet('ETH','ETH','07FED02BDB20EFE5297445472E2AD0647C9E288A5E28A4E0C7C18CEEFC09B470');
+let wallet = Wallet.importPrivateWallet({chain:'ETH', currency:'ETH', privateKey:'07FED02BDB20EFE5297445472E2AD0647C9E288A5E28A4E0C7C18CEEFC09B470'});
 
 //sign eth rawTransaction
 wallet.sign('rawTransaction');
@@ -87,28 +122,30 @@ wallet.sign('rawTransaction');
 wallet.export();
 
 //Import BTC private wallet(P2SH)
-wallet = KofoWallet.importPrivateWallet('BTC', 'BTC', 'L4djGpF8XrBoNQKitkT4S398Q8NijEzcdWayGPCS4hXnMDMTfbk2', 'P2SH');
+wallet = Wallet.importPrivateWallet({chain: 'BTC', currency: 'BTC', privateKey:'L4djGpF8XrBoNQKitkT4S398Q8NijEzcdWayGPCS4hXnMDMTfbk2', walletType:'P2SH');
 wallet.export()
 
 //Import BTC private wallet(P2PKH)
-wallet = KofoWallet.importPrivateWallet('BTC', 'BTC', 'L4djGpF8XrBoNQKitkT4S398Q8NijEzcdWayGPCS4hXnMDMTfbk2');
+wallet = Wallet.importPrivateWallet({chain: 'BTC', currency: 'BTC', privateKey:'L4djGpF8XrBoNQKitkT4S398Q8NijEzcdWayGPCS4hXnMDMTfbk2'});
 wallet.export()
 
 //sign btc rawTransaction
 wallet.sign(rawTransaction);
 ```
 
-### importKeyStoreWallet(options)
-Currently only the ETH chain is supported.
+### async Wallet.importKeyStoreWallet(options)
+Import the keystore encrypted file wallet, currently only ***ETH*** and ***ZIL*** are supported
 **options**:
-* `chain` Chain name
-* `currency`: Currency name
-* `keystore`: keystore json.
-* `password`: keystore password
+* **chain** Chain name e.g ETH
+* **currency**: Currency name e.g ETH
+* **keystore**: Keystore JSON
+* **password**: Keystore passphrase
+
+**returns** {Promise<PrivateWallet || MnemonicWallet>}
 ```js
-let wallet = KofoWallet.createWallet({chain: 'ETH', currency: 'ETH'});
+let wallet = Wallet.createWallet({chain: 'ETH', currency: 'ETH'});
 let keystore = await wallet.exportKeyStore('pwd');
-wallet = await KofoWallet.importKeyStoreWallet({
+wallet = await Wallet.importKeyStoreWallet({
     chain: 'ETH',
     currency: 'ETH',
     keystore: keystore,
@@ -116,26 +153,29 @@ wallet = await KofoWallet.importKeyStoreWallet({
 });
 wallet.export()
 ```
-### publicToAddress(options)
+### Wallet.publicToAddress(options)
+Takes public key hex-encoded string and returns the corresponding address
 **options**:
-* `chain` Chain name
-* `currency`: Currency name
-* `network`: For BTC chain, default is `livenet`.
-* `publicKey`: Public key
-* `walletType`: For BTC chain, default is `P2PKH`, supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
+* **chain** Chain name e.g ETH
+* **currency**: Currency name e.g ETH
+* **publicKey**: Public key string
+* **network**: *[Optional]* BTC network only, default `"livenet"`
+* **walletType**:  *[Optional]* BTC network only，default `"P2PKH"`, supports `"P2PKH"` and `"P2SH"`. [More info](https://en.bitcoin.it/wiki/Address)
+
+**returns** {address}
 ```js
 //ETH public key to address
-let wallet = KofoWallet.createWallet({chain: 'ETH', currency: 'ETH'});
+let wallet = Wallet.createWallet({chain: 'ETH', currency: 'ETH'});
 let publicKey = wallet.export().publicKey;
-KofoWallet.publicToAddress({chain: 'ETH', currency: 'ETH', publicKey: publicKey})
+Wallet.publicToAddress({chain: 'ETH', currency: 'ETH', publicKey: publicKey})
 
 //BTC P2PKH
-wallet = KofoWallet.createWallet({chain: 'BTC', currency: 'BTC'});
+wallet = Wallet.createWallet({chain: 'BTC', currency: 'BTC'});
 publicKey = wallet.export().publicKey;
-KofoWallet.publicToAddress({chain: 'BTC', currency: 'BTC', publicKey: publicKey})
+Wallet.publicToAddress({chain: 'BTC', currency: 'BTC', publicKey: publicKey})
 
 //BTC P2SH
-wallet = KofoWallet.createWallet({chain: 'BTC', currency: 'BTC', walletType: 'P2SH'});
+wallet = Wallet.createWallet({chain: 'BTC', currency: 'BTC', walletType: 'P2SH'});
 publicKey = wallet.export().publicKey;
-KofoWallet.publicToAddress({chain: 'BTC', currency: 'BTC', publicKey: publicKey, walletType: 'P2SH'})
+Wallet.publicToAddress({chain: 'BTC', currency: 'BTC', publicKey: publicKey, walletType: 'P2SH'})
 ```

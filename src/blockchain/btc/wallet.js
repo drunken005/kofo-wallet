@@ -1,6 +1,5 @@
 const Bitcore = require('bitcore-lib');
 const Bitcoin = require('bitcoinjs-lib');
-
 const Mnemonic = require("./mnemonic/mnemonic");
 const ECDSA = Bitcore.crypto.ECDSA;
 const Signature = Bitcore.crypto.Signature;
@@ -36,11 +35,10 @@ const DEFAULT_WALLET_PATH = {
  *
  */
 class BaseWallet {
-    constructor({identifier, mnemonic, network, passphrase, language, walletType, path}) {
+    constructor({identifier, mnemonic, network, language, walletType, path}) {
         this.identifier = identifier;
         this.mnemonic = mnemonic;
         this.network = network || DEFAULT_NETWORK;
-        this.passphrase = passphrase;
         this.language = language || 'en';
         this.walletType = walletType || WALLET_TYPE.P2PKH;
         if (!WALLET_TYPE[this.walletType]) {
@@ -97,21 +95,19 @@ class BaseWallet {
     }
 
     export() {
-        return {
-            chain: this.identifier.chain,
-            currency: this.identifier.currency,
+        let _export = this.identifier.export();
+        return Object.assign(_export, {
             privateKey: this.privateKey,
             publicKey: this.publicKey,
             address: this.address,
-            mnemonic: this._mnemonic,
-
             network: this.network,
+
+            mnemonic: this._mnemonic,
             language: this.language,
-            passphrase: this.passphrase,
+            path: this.path,
             seed: this._seed,
-            walletType: this.walletType,
-            path: this.path
-        };
+            walletType: this.walletType
+        });
     }
 
 }
@@ -128,7 +124,7 @@ class MnemonicWallet extends BaseWallet {
     constructor(options) {
         super(options);
         this.instance = Mnemonic.getMnemonic(this.language, this.mnemonic);
-        this.HDPrivateKey = this.instance.toHDPrivateKey(this.passphrase, this.network, this.path);
+        this.HDPrivateKey = this.instance.toHDPrivateKey(this.network, this.path);
         this.wallet = this.HDPrivateKey.privateKey;
     }
 

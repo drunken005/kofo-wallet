@@ -249,7 +249,7 @@ describe('KOFO-WALLET', () => {
             assert.ok(_export.hasOwnProperty('publicKey') && _export.publicKey && _.isString(_export.publicKey));
             assert.ok(_export.hasOwnProperty('address') && _export.address && _.isString(_export.address));
             assert.ok(_export.hasOwnProperty('mnemonic') && !_export.mnemonic);
-            assert.ok(_export.hasOwnProperty('path') && !_export.path);
+            assert.ok(_export.hasOwnProperty('path') && _export.path);
             assert.ok(_.isFunction(wallet.sign));
             ETH.importPrivateWallet = _export;
 

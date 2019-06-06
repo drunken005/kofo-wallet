@@ -194,9 +194,8 @@ Mnemonic._getDictionary = function (mnemonic) {
  * @param {String} [passphrase]
  * @returns {Buffer}
  */
-Mnemonic.prototype.toSeed = function (passphrase) {
-    passphrase = passphrase || '';
-    return pbkdf2(unorm.nfkd(this.phrase), unorm.nfkd('mnemonic' + passphrase), 2048, 64);
+Mnemonic.prototype.toSeed = function () {
+    return pbkdf2(unorm.nfkd(this.phrase), unorm.nfkd('mnemonic'), 2048, 64);
 };
 
 /**
@@ -212,8 +211,8 @@ Mnemonic.fromSeed = function (seed, wordlist) {
     return new Mnemonic(seed, wordlist);
 };
 
-Mnemonic.prototype.toHDPrivateKey = function (passphrase, network, path) {
-    const seed = this.toSeed(passphrase);
+Mnemonic.prototype.toHDPrivateKey = function (network, path) {
+    const seed = this.toSeed();
     if (!path) {
         return bitcore.HDPrivateKey.fromSeed(seed, network);
     }

@@ -24,21 +24,27 @@ class BaseWallet {
         return "";
     }
 
+    get _seed() {
+        return '';
+    }
+
     async sign(data) {
         let transaction = utils.parseTransaction(data);
         return await this.wallet.sign(transaction);
     }
 
     export() {
-        return {
-            chain: this.identifier.chain,
-            currency: this.identifier.currency,
+        let _export = this.identifier.export();
+        return Object.assign(_export, {
             privateKey: this.privateKey,
             publicKey: this.publicKey,
             address: this.address,
+
             mnemonic: this._mnemonic,
-            path: this.wallet.path
-        };
+            language: this.language,
+            path: this.path,
+            seed: this._seed,
+        });
     }
 
     async exportKeyStore(password) {
@@ -61,6 +67,10 @@ class MnemonicWallet extends BaseWallet {
 
     get _mnemonic() {
         return this.wallet.mnemonic;
+    }
+
+    get _seed() {
+        return utils.HDNode.mnemonicToSeed(this.wallet.mnemonic);
     }
 }
 

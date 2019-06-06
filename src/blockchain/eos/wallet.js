@@ -43,18 +43,17 @@ class BaseWallet {
     }
 
     export() {
-        return {
-            chain: this.identifier.chain,
-            currency: this.identifier.currency,
+        let _export = this.identifier.export();
+        return Object.assign(_export, {
             privateKey: this._privateKey,
             publicKey: this._publicKey,
             address: this.address,
-            mnemonic: this._mnemonic,
 
+            mnemonic: this._mnemonic,
             language: this.language,
-            seed: this._seed,
-            path: this.path
-        };
+            path: this.path,
+            seed: this._seed
+        })
     }
 }
 
