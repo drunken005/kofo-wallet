@@ -2,7 +2,7 @@
   "name": "kofo-wallet",
   "version": "1.0.5",
   "description": "Kofo network supports blockchain wallet, which provides signature and private key management",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha test/**/*.test.js",
     "dist": "npm run dist-version && npm run build && gulp default minified shims && npm run dist-types"

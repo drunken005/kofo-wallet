@@ -1,5 +1,5 @@
 const assert = require('assert');
-const Identifier = require('../src/identifier');
+const Identifier = require('../lib/identifier');
 
 describe('Identifier', () => {
     it('#Identifier constructor', () => {

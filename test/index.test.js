@@ -1,10 +1,30 @@
 const assert = require('assert');
 const _ = require('lodash');
-const KofoWallet = require('../src');
+const KofoWallet = require('..');
 
 
 describe('KOFO-WALLET', () => {
     let BTC = {}, ETH = {}, EOS = {}, ZIL = {};
+
+    it('#KofoWallet.supportsChain should return string ', function () {
+        let result = KofoWallet.supportsChain;
+        assert.strictEqual(typeof result, 'string');
+        assert.ok(result.indexOf('BTC') >= 0);
+        assert.ok(result.indexOf('EOS') >= 0);
+        assert.ok(result.indexOf('ETH') >= 0);
+
+    });
+
+    it('#KofoWallet.createWallets should return multi chain wallets', function () {
+        let wallets = KofoWallet.createWallets('testnet', 'P2PKH');
+        assert.ok(_.isObject(wallets));
+        assert.ok(wallets.ETH.export().hasOwnProperty('privateKey'));
+        assert.ok(wallets.BTC.export().hasOwnProperty('mnemonic'));
+        assert.ok(wallets.EOS.export().hasOwnProperty('seed'));
+        assert.ok(wallets.ZIL.export().hasOwnProperty('path'));
+        assert.ok(_.isFunction(wallets.MEETONE.sign));
+        assert.ok(wallets.BTC.export().hasOwnProperty('walletType') && wallets.BTC.export().walletType === 'P2PKH');
+    });
 
     describe('BTC', () => {
         const params = {chain: 'BTC', currency: 'BTC'};
@@ -406,7 +426,6 @@ describe('KOFO-WALLET', () => {
         });
 
     });
-
 
     describe('ZILLIQA', () => {
         const params = {chain: 'ZIL', currency: 'ZIL'};

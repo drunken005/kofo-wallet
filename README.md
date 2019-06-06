@@ -13,6 +13,26 @@ or
 import Wallet from 'kofo-wallet';
 ```
 
+## Include
+* Html script tag
+```js
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<script src="https://pre.kofo.io/kofowallet/kofowallet.js"></script>
+<div>
+   <!--Useage
+   KofoWallet.createWallet(...)
+   KofoWallet is a global object
+   -->
+</div>
+</body>
+</html>
+```
+
 ## Test
 ```
 npm test
@@ -21,6 +41,7 @@ npm test
 ## API
 ### Wallet.supportsChain
 Print the current wallet support chain
+
 **return** String
 ```js
 Wallet.supportsChain

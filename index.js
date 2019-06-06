@@ -1,6 +1,6 @@
-const wallets = require('./blockchain/wallet');
-const Identifier = require('./identifier');
-const Mnemonic = require("./blockchain/btc/mnemonic/mnemonic");
+const wallets = require('./lib/blockchain/wallet');
+const Identifier = require('./lib/identifier');
+const Mnemonic = require("./lib/blockchain/btc/mnemonic/mnemonic");
 const _ = require('lodash');
 
 /**
@@ -124,19 +124,3 @@ class KofoWallet {
 }
 
 module.exports = KofoWallet;
-// (function () {
-//     if (!window.KofoWallet) {
-//         window.KofoWallet = KofoWallet;
-//     }
-// })();
-
-let _wallets = KofoWallet.createWallets();
-// console.log(wallets);
-// console.log(_wallets.BTC.export());
-// console.log(_wallets.ETH.export());
-// console.log(_wallets.EOS.export());
-// console.log(_wallets.ZIL.export());
-// console.log(_wallets.MEETONE.export());
-// console.log(_wallets.BOS.export());
-
-console.log(KofoWallet.supportsChain);

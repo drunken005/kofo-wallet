@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kofo wallet</title>
+</head>
+<body>
+<script src="https://pre.kofo.io/kofowallet/kofowallet.js"></script>
+<script>
+    function createWallet() {
+        let wallet = KofoWallet.createWallet({chain: 'BTC', currency: 'BTC', network: 'testnet'});
+        wallet = wallet.export();
+
+        let el = document.createElement("div");
+        el.innerHTML =
+            `<div><b>Address</b>:  ${wallet.address}</div>
+            <div><b>PublicKey</b>:  ${wallet.publicKey}}</div>
+            <div><b>privateKey</b>:  ${wallet.privateKey}</div>
+            <div><b>Network</b>:  ${wallet.network}</div>
+            <div><b>Mnemonic</b>:  ${wallet.mnemonic}</div>
+            <div><b>Language</b>:  ${wallet.language}</div>
+            <div><b>Path</b>:  ${wallet.path}</div>
+            <div><b>WalletType</b>:  ${wallet.walletType}</div>
+           `;
+        document.getElementById('wallet').append(el);
+    }
+</script>
+<div>
+    <div>
+        <button onclick="createWallet()">create btc wallet</button>
+        <!--<div id="wallet"></div>-->
+    </div>
+</div>
+</body>
+</html>
