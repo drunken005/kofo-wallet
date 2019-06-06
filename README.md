@@ -28,6 +28,7 @@ Wallet.supportsChain
 ```
 ### Wallet.createWallets(network, walletType)
 Create all support chain wallets at once
+
 **params**:
  * **network** *[Optional]* BTC network only, default `"livenet"`
  * **walletType** *[Optional]* BTC network only，default `"P2PKH"`,  supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
