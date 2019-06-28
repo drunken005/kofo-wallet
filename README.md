@@ -1,5 +1,5 @@
 # kofo wallet
-Kofo network supports blockchain wallet, which provides signature and private key and mnemonic HDWallet management.Currently supporting **`BTC/USDT`** **`ETH/ERC20`** **`ZILLIQA`** **`EOS`** **`BOS`** **`MEETONE`** chain and currency.
+Kofo network supports blockchain wallet, which provides signature and private key and mnemonic HDWallet management.Currently supporting **`BTC/USDT`** **`ETH/ERC20`** **`ZILLIQA`**  **`HPB`**  **`EOS`** **`BOS`** **`MEETONE`** chain and currency.
 This wallet does not have any communication with the full nodes of each chain. It is an offline wallet and only provides the rawTransaction signature returned by the gateway of KOFO network. High safety.
 
 ## Install and import
@@ -45,7 +45,7 @@ Print the current wallet support chain
 **return** String
 ```js
 Wallet.supportsChain
-//return 'kofo wallet supports chain:< BTC ETH EOS ZIL MEETONE BOS >'
+//return 'kofo wallet supports chain:< BTC ETH EOS ZIL MEETONE BOS HPB>'
 ```
 ### Wallet.createWallets(network, walletType)
 Create all support chain wallets at once
@@ -159,7 +159,7 @@ wallet.sign(rawTransaction);
 ```
 
 ### async Wallet.importKeyStoreWallet(options)
-Import the keystore encrypted file wallet, currently only ***ETH*** and ***ZIL*** are supported
+Import the keystore encrypted file wallet, currently only ***ETH*** and ***ZIL*** and  ***HPB*** are supported
 
 **options**:
 * **chain** Chain name e.g ETH
