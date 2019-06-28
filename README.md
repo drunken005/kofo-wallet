@@ -22,7 +22,7 @@ import Wallet from 'kofo-wallet';
     <meta charset="UTF-8">
 </head>
 <body>
-<script src="https://pre.kofo.io/kofowallet/kofowallet.js"></script>
+<script src="https://pre.kofo.io/kofo/kofowallet.js"></script>
 <div>
    <!--Useage
    KofoWallet.createWallet(...)
