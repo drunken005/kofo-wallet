@@ -101,11 +101,12 @@ class KofoWallet {
      * @param currency Currency name e.g ETH
      * @param keystore Keystore JSON
      * @param password Keystore passphrase
+     * @param network HPB network only, default is `"livenet"`.
      * @returns {Promise<*|void|*>}
      */
-    static async importKeyStoreWallet({chain, currency, keystore, password}) {
+    static async importKeyStoreWallet({chain, currency, keystore, password, network}) {
         let {instance, identifier} = KofoWallet.getIdentifier(chain, currency);
-        return await instance.importKeyStoreWallet({identifier, keystore, password});
+        return await instance.importKeyStoreWallet({identifier, keystore, password,network});
     }
 
     /**

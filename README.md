@@ -51,7 +51,7 @@ Wallet.supportsChain
 Create all support chain wallets at once
 
 **params**:
- * **network** *[Optional]* BTC network only, default `"livenet"`
+ * **network** *[Optional]* BTC/HPB network only, default `"livenet"`
  * **walletType** *[Optional]* BTC network only，default `"P2PKH"`,  supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
 
 **returns** {MnemonicWallets}
@@ -76,7 +76,7 @@ Specify blockchain to create an HDWallet using mnemonic
 **options**:
  * **chain**  Chain name e.g ETH
  * **currency**  Currency name e.g ETH
- * **network**  *[Optional]* BTC network only, default `"livenet"`
+ * **network**  *[Optional]* BTC/HPB network only, default `"livenet"`
  * **language**  *[Optional]* Mnemonic language，default `"en"` english, supports [ENGLISH 'en', SPANISH 'es', JAPANESE 'ja', CHINESE 'zh', FRENCH 'fr', ITALIAN 'it']
  * **walletType**  *[Optional]* BTC network only，default `"P2PKH"`,  supports `P2PKH` and `P2SH`. [More info](https://en.bitcoin.it/wiki/Address)
  * **path**  *[Optional]* Mnemonic derive path, each chain has a different path and default path value. [More info](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
@@ -105,7 +105,7 @@ Import mnemonic word HDWallet
 * **currency**: Currency name e.g ETH
 * **mnemonic**: The mnemonic string
 * **language**: *[Optional]* Mnemonic language，default `"en"` english,
-* **network**: *[Optional]* BTC network only, default `"livenet"`
+* **network**: *[Optional]* BTC/HPB network only, default `"livenet"`
 * **walletType**: *[Optional]* BTC network only，default `"P2PKH"`, supports `"P2PKH"` and `"P2SH"`. [More info](https://en.bitcoin.it/wiki/Address)
 * **path**: *[Optional]* Mnemonic derive path. [More info](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
 
@@ -132,7 +132,7 @@ Import the wallet with the private key
 * **chain** Chain name e.g ETH
 * **currency**: Currency name e.g ETH
 * **privateKey**: Wallet private key string
-* **network**: *[Optional]* BTC network only, default is `"livenet"`.
+* **network**: *[Optional]* BTC/HPB network only, default is `"livenet"`.
 * **walletType**: *[Optional]* BTC network only，default `"P2PKH"`, supports `"P2PKH"` and `"P2SH"`. [More info](https://en.bitcoin.it/wiki/Address)
 
 **returns** {PrivateWallet}
@@ -166,6 +166,7 @@ Import the keystore encrypted file wallet, currently only ***ETH*** and ***ZIL**
 * **currency**: Currency name e.g ETH
 * **keystore**: Keystore JSON
 * **password**: Keystore passphrase
+* **network**: *[Optional]* HPB network only, default is `"livenet"`.
 
 **returns** {Promise<PrivateWallet || MnemonicWallet>}
 ```js

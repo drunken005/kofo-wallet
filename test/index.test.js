@@ -350,7 +350,7 @@ describe('KOFO-WALLET', () => {
     });
 
     describe('HPB', () => {
-        const params = {chain: 'HPB', currency: 'HPB'};
+        const params = {chain: 'HPB', currency: 'HPB', network: 'testnet'};
         let wallet, mnemonic, privateKey, createWallet, keystore, keystorePassword = 'passw0rd';
 
         it('#Kofo.createWallet', async () => {
@@ -463,7 +463,7 @@ describe('KOFO-WALLET', () => {
         });
 
         it('#KofoWallet.sign rawTransaction', async () => {
-            let rawTransaction = '0xea80850430e234008304baf0943e97b20d37df229c4037436a0c46bbe529a217cf880de0b6b3a764000080';
+            let rawTransaction = "{\"data\":\"\",\"gasLimit\":310000,\"gasPrice\":18000000000,\"nonce\":2,\"to\":\"0x85b4c0bbc220c1d8e657d091db5529bda9008de4\",\"value\":100000000000000}";;
             let signedTransaction = await wallet.sign(rawTransaction);
             assert.ok(_.isString(signedTransaction));
             assert.strictEqual(signedTransaction.substr(0, 2), '0x');
