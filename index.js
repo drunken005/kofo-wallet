@@ -13,7 +13,7 @@ class KofoWallet {
      * Print the current wallet support chain
      * @returns {string}
      */
-    static get supportsChain(){
+    static get supportsChain() {
         return `kofo wallet supports chain:< ${_.keys(wallets).join(' ')} >`
     }
 
@@ -106,7 +106,7 @@ class KofoWallet {
      */
     static async importKeyStoreWallet({chain, currency, keystore, password, network}) {
         let {instance, identifier} = KofoWallet.getIdentifier(chain, currency);
-        return await instance.importKeyStoreWallet({identifier, keystore, password,network});
+        return await instance.importKeyStoreWallet({identifier, keystore, password, network});
     }
 
     /**
