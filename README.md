@@ -1,5 +1,5 @@
 # kofo wallet
-Kofo network supports blockchain wallet, which provides signature and private key and mnemonic HDWallet management.Currently supporting **`BTC/USDT`** **`ETH/ERC20`** **`ZILLIQA`**  **`HPB`**  **`EOS`** **`BOS`** **`MEETONE`** **`BNB`**chain and currency.
+Kofo network supports blockchain wallet, which provides signature and private key and mnemonic HDWallet management.Currently supporting **`BTC/USDT`** **`ETH/ERC20`** **`ZILLIQA`**  **`HPB`**  **`EOS`** **`BOS`** **`MEETONE`** **`BNB`** chain and currency.
 This wallet does not have any communication with the full nodes of each chain. It is an offline wallet and only provides the rawTransaction signature returned by the gateway of KOFO network. High safety.
 
 ## Install and import
@@ -187,8 +187,8 @@ Takes public key hex-encoded string and returns the corresponding address
 * **chain** Chain name e.g ETH
 * **currency**: Currency name e.g ETH
 * **publicKey**: Public key string
-* **network**: *[Optional]* BTC network only, default `"livenet"`
-* **walletType**:  *[Optional]* BTC/BNB network only，default `"P2PKH"`, supports `"P2PKH"` and `"P2SH"`. [More info](https://en.bitcoin.it/wiki/Address)
+* **network**: *[Optional]* BTC/BNB network only, default `"livenet"`
+* **walletType**:  *[Optional]* BTC network only，default `"P2PKH"`, supports `"P2PKH"` and `"P2SH"`. [More info](https://en.bitcoin.it/wiki/Address)
 
 **returns** {address}
 ```js
