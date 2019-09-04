@@ -1,6 +1,8 @@
 # kofo wallet
-Kofo network supports blockchain wallet, which provides signature and private key and mnemonic HDWallet management.Currently supporting **`BTC/USDT`** **`ETH/ERC20`** **`ZILLIQA`**  **`HPB`**  **`EOS`** **`BOS`** **`MEETONE`** **`BNB`** chain and currency.
+Kofo network supports blockchain wallet, which provides signature and private key and mnemonic HDWallet management.Currently supporting **`BTC/USDT`** **`ETH/ERC20`** **`ZILLIQA`**  **`HPB`**  **`EOS`** **`BOS`** **`MEETONE`** **`BNB`** **`TRON`** chain and currency.
 This wallet does not have any communication with the full nodes of each chain. It is an offline wallet and only provides the rawTransaction signature returned by the gateway of KOFO network. High safety.
+
+**Note**: **TRON** wallet does not support transaction signatures
 
 ## Install and import
 
