@@ -25,6 +25,15 @@
         document.getElementById('wallet').append(el);
     }
 </script>
+
+<script>
+    // (async ()=>{
+    //     let wallet = KofoWallet.importPrivateWallet({chain:'ZIL', currency:'ZIL', privateKey:'47f00912c74fd3f60b4a62855abdbc52d6399d26fc2e1bd7bfb91694c0acc114'});
+    //     let raw = "{\"amount\":\"1000000000000\",\"code\":\"\",\"data\":\"2h4GPvN1ccVwPHeVGMdZWSK6Jx8pKe8gx8wFEPvyH5MVewqakwv48vbuve96G2vj7pR8zZznwZ79fc8YjyYvaLtjAVU5N7xQorrnH8AtoCE7oDeq6zghH2aNE3gTAR3DS1buWEVQsLUGGeZP6gkTxBVLZhGsVmboMz9dUiWF2Yj4WjUFtsdDuMr8aNRc2PP9tyeVFsvR7FUJuQFVf1sUrc1Jb6ARrWbSULHptUWrcC94eeBf134E9Q464osWsJv7PVbTCwUm3CWjPXGKqiUD4gzgjqHdiFYapAjh4q1TtYkikWPVUxevgWyK94cUXQwvu56PdXVE5LNWmSjxEUAQ3mnhJDQdSMrHPkQfK9eUBeapQabFN5uWvX4WL5wZBA2XQhZAGsxaRJ\",\"gasLimit\":\"2000\",\"gasPrice\":\"1000000000\",\"iD\":null,\"nonce\":\"176\",\"receipt\":null,\"senderPubKey\":null,\"signature\":null,\"toAddr\":\"30bc5c6bb0395961c45474c32e8268aafaf70d65\",\"version\":\"21823489\"}";
+    //     let sign = await wallet.sign(raw);
+    //     console.log(sign)
+    // })();
+</script>
 <div>
     <div>
         <button onclick="createWallet()">create btc wallet</button>

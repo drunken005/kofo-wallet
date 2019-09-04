@@ -4,7 +4,7 @@ const KofoWallet = require('..');
 const {RawTransaction} = require('binance-utils');
 
 describe('KOFO-WALLET', () => {
-    let BTC = {}, ETH = {}, HPB={}, EOS = {}, ZIL = {}, BNB = {};
+    let BTC = {}, ETH = {}, HPB = {}, EOS = {}, ZIL = {}, BNB = {}, TRX = {};
 
     it('#KofoWallet.supportsChain should return string ', function () {
         let result = KofoWallet.supportsChain;
@@ -463,7 +463,8 @@ describe('KOFO-WALLET', () => {
         });
 
         it('#KofoWallet.sign rawTransaction', async () => {
-            let rawTransaction = "{\"data\":\"\",\"gasLimit\":310000,\"gasPrice\":18000000000,\"nonce\":2,\"to\":\"0x85b4c0bbc220c1d8e657d091db5529bda9008de4\",\"value\":100000000000000}";;
+            let rawTransaction = "{\"data\":\"\",\"gasLimit\":310000,\"gasPrice\":18000000000,\"nonce\":2,\"to\":\"0x85b4c0bbc220c1d8e657d091db5529bda9008de4\",\"value\":100000000000000}";
+            ;
             let signedTransaction = await wallet.sign(rawTransaction);
             assert.ok(_.isString(signedTransaction));
             assert.strictEqual(signedTransaction.substr(0, 2), '0x');
@@ -663,18 +664,20 @@ describe('KOFO-WALLET', () => {
 
         it('#KofoWallet.sign rawTransaction', async () => {
             let rawTransaction = {
-                "amount": "0",
-                "code": "",
-                "data": "{\"_tag\":\"changeAdminAddress\",\"params\":[{\"type\":\"ByStr20\",\"value\":\"0x7b5f2006dcd9ec22a9f8b7d7c6e34338331b6a86\",\"vname\":\"adminAddress\"}]}",
-                "gasLimit": "2000",
-                "gasPrice": "1000000000",
-                "nonce": "321",
-                "senderPubKey": wallet.export().publicKey,
-                "toAddr": "6f18B3a0fc9f232eA9Ef951b5e741895e24B15f5",
-                "version": "21823496"
+                amount: '1000000000000',
+                code: '',
+                data: '2h4GPvN1ccVwPHeVGMdZWSK6Jx8pKe8gx8wFEPvyH5MVewqakwv48vbuve96G2vj7pR8zZznwZ79fc8YjyYvaLtjAVU5N7xQorrnH8AtoCE7oDeq6zghH2aNE3gTAR3DS1buWEVQsLUGGeZP6gkTxBVLZhGsVmboMz9dUiWF2Yj4WjUFtsdDuMr8aNRc2PP9tyeVFsvR7FUJuQFVf1sUrc1Jb6ARrWbSULHptUWrcC94eeBf134E9Q464osWsJv7PVbTCwUm3CWjPXGKqiUD4gzgjqHdiFYapAjh4q1TtYkikWPVUxevgWyK94cUXQwvu56PdXVE5LNWmSjxEUAQ3mnhJDQdSMrHPkQfK9eUBeapQabFN5uWvX4WL5wZBA2XQhZAGsxaRJ',
+                gasLimit: '2000',
+                gasPrice: '1000000000',
+                iD: null,
+                nonce: '176',
+                receipt: null,
+                senderPubKey: null,
+                signature: null,
+                toAddr: '30bc5c6bb0395961c45474c32e8268aafaf70d65',
+                version: '21823489'
             };
             let signedTransaction = await wallet.sign(rawTransaction);
-
             assert.ok(_.isString(signedTransaction));
             signedTransaction = JSON.parse(signedTransaction);
             assert.ok(signedTransaction.hasOwnProperty('signature') && _.isString(signedTransaction.signature))
@@ -786,7 +789,7 @@ describe('KOFO-WALLET', () => {
                     password: 'passw1rd'
                 }));
             } catch (e) {
-                assert.ok(e.message.indexOf('wrong password')>0)
+                assert.ok(e.message.indexOf('wrong password') > 0)
             }
         });
 
@@ -812,10 +815,95 @@ describe('KOFO-WALLET', () => {
 
     });
 
+    describe('Tron', () => {
+        const params = {chain: 'TRX', currency: 'TRX'};
+        let wallet, mnemonic, privateKey, createWallet;
+
+        it('#Kofo.createWallet', async () => {
+            wallet = KofoWallet.createWallet(params);
+            createWallet = wallet.export();
+            let _export = wallet.export();
+            mnemonic = _export.mnemonic;
+            privateKey = _export.privateKey;
+
+            assert.strictEqual(_export.chain, params.chain);
+            assert.strictEqual(_export.currency, params.currency);
+
+            assert.ok(_export.hasOwnProperty('privateKey') && _export.privateKey && _.isString(_export.privateKey));
+            assert.ok(_export.hasOwnProperty('publicKey') && _export.publicKey && _.isString(_export.publicKey));
+            assert.ok(_export.hasOwnProperty('address') && _export.address && _.isString(_export.address));
+            assert.ok(_export.hasOwnProperty('mnemonic') && _export.mnemonic && _.isString(_export.mnemonic));
+            assert.ok(_export.hasOwnProperty('path') && _export.path && _.isString(_export.path));
+
+            assert.ok(_.isFunction(wallet.sign));
+            TRX.createWallet = _export;
+
+        });
+
+        it('#KofoWallet.importPrivateWallet', async () => {
+            wallet = KofoWallet.importPrivateWallet(_.assign({}, params, {privateKey}));
+            let _export = wallet.export();
+
+            assert.strictEqual(_export.chain, params.chain);
+            assert.strictEqual(_export.currency, params.currency);
+
+            assert.strictEqual(_export.privateKey, createWallet.privateKey);
+            assert.strictEqual(_export.address, createWallet.address);
+            assert.strictEqual(_export.publicKey, createWallet.publicKey);
+
+            assert.ok(_export.hasOwnProperty('privateKey') && _export.privateKey && _.isString(_export.privateKey));
+            assert.ok(_export.hasOwnProperty('publicKey') && _export.publicKey && _.isString(_export.publicKey));
+            assert.ok(_export.hasOwnProperty('address') && _export.address && _.isString(_export.address));
+            assert.ok(_export.hasOwnProperty('mnemonic') && !_export.mnemonic);
+            assert.ok(_export.hasOwnProperty('path') && _export.path && _.isString(_export.path));
+
+            assert.ok(_.isFunction(wallet.sign));
+            TRX.importPrivateWallet = _export;
+
+        });
+
+
+        it('#KofoWallet.importMnemonicWallet', async () => {
+            wallet = KofoWallet.importMnemonicWallet(_.assign({}, params, {mnemonic}));
+            let _export = wallet.export();
+
+            assert.strictEqual(_export.chain, params.chain);
+            assert.strictEqual(_export.currency, params.currency);
+
+            assert.strictEqual(_export.privateKey, createWallet.privateKey);
+            assert.strictEqual(_export.address, createWallet.address);
+            assert.strictEqual(_export.publicKey, createWallet.publicKey);
+            assert.strictEqual(_export.mnemonic, createWallet.mnemonic);
+            assert.strictEqual(_export.path, createWallet.path);
+
+            assert.ok(_export.hasOwnProperty('privateKey') && _export.privateKey && _.isString(_export.privateKey));
+            assert.ok(_export.hasOwnProperty('publicKey') && _export.publicKey && _.isString(_export.publicKey));
+            assert.ok(_export.hasOwnProperty('address') && _export.address && _.isString(_export.address));
+            assert.ok(_export.hasOwnProperty('mnemonic') && _export.mnemonic && _.isString(_export.mnemonic));
+            assert.ok(_export.hasOwnProperty('path') && _export.path && _.isString(_export.path));
+            assert.ok(_.isFunction(wallet.sign));
+            TRX.importMnemonicWallet = _export;
+
+        });
+
+        it('#KofoWallet.publicToAddress', async () => {
+            let address = KofoWallet.publicToAddress(_.assign({}, params, {publicKey: createWallet.publicKey}));
+            assert.strictEqual(address, createWallet.address);
+        });
+
+        it('#KofoWallet.sign rawTransaction', async () => {
+            let rawTransaction = '21823489';
+            let signedTransaction = await wallet.sign(rawTransaction);
+            console.log(signedTransaction)
+            assert.ok(_.isString(signedTransaction));
+            assert.ok(!signedTransaction)
+        });
+
+    });
 
     after(() => {
         console.log('\nkofo wallet details:');
-        console.log({BTC, ETH, HPB, EOS, ZIL, BNB});
+        console.log({BTC, ETH, HPB, EOS, ZIL, BNB, TRX});
         console.log('\n')
     })
 
