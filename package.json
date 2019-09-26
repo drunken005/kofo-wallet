@@ -1,11 +1,11 @@
 {
   "name": "kofo-wallet",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Kofo network supports blockchain wallet, which provides signature and private key management",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/**/*.test.js",
-    "build": "rm -rf src/identifier.js src/blockchain/ && cp -rf lib/* src/ && npx webpack "
+    "build": "rm -rf src/identifier.js src/blockchain/ dist/ && cp -rf lib/* src/ && webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
