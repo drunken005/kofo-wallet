@@ -1,28 +1,29 @@
-"use strict";
-
-var _require = require('./bytes'),
-    byteArray2hexStr = _require.byteArray2hexStr;
-
-var _require2 = require('./crypto'),
-    getBase58CheckAddress = _require2.getBase58CheckAddress,
-    genPriKey = _require2.genPriKey,
-    getAddressFromPriKey = _require2.getAddressFromPriKey,
-    getPubKeyFromPriKey = _require2.getPubKeyFromPriKey;
+const {byteArray2hexStr} = require('./bytes');
+const {
+    getBase58CheckAddress,
+    genPriKey,
+    getAddressFromPriKey,
+    getPubKeyFromPriKey
+} = require('./crypto');
 
 function generateAccount() {
-  var priKeyBytes = genPriKey();
-  var pubKeyBytes = getPubKeyFromPriKey(priKeyBytes);
-  var addressBytes = getAddressFromPriKey(priKeyBytes);
-  var privateKey = byteArray2hexStr(priKeyBytes);
-  var publicKey = byteArray2hexStr(pubKeyBytes);
-  return {
-    privateKey: privateKey,
-    publicKey: publicKey,
-    address: {
-      base58: getBase58CheckAddress(addressBytes),
-      hex: byteArray2hexStr(addressBytes)
+    const priKeyBytes = genPriKey();
+    const pubKeyBytes = getPubKeyFromPriKey(priKeyBytes);
+    const addressBytes = getAddressFromPriKey(priKeyBytes);
+
+    const privateKey = byteArray2hexStr(priKeyBytes);
+    const publicKey = byteArray2hexStr(pubKeyBytes);
+
+    return {
+        privateKey,
+        publicKey,
+        address: {
+            base58: getBase58CheckAddress(addressBytes),
+            hex: byteArray2hexStr(addressBytes)
+        }
     }
-  };
 }
+
+
 
 console.log(generateAccount());

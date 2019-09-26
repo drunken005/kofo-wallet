@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   'CHINESE': require('./chinese'),
   'ENGLISH': require('./english'),

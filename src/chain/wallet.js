@@ -1,27 +1,19 @@
-"use strict";
-
-var BTC = require('./btc/wallet');
-
-var ETH = require('./eth/wallet');
-
-var EOS = require('./eos/wallet');
-
-var ZIL = require('./zil/wallet');
-
-var HPB = require('./hpb/wallet');
-
-var BNB = require('./bnb/wallet');
-
-var TRX = require('./trx/wallet');
+const BTC = require('./btc/wallet');
+const ETH = require('./eth/wallet');
+const EOS = require('./eos/wallet');
+const ZIL = require('./zil/wallet');
+const HPB = require('./hpb/wallet');
+const BNB = require('./bnb/wallet');
+const TRX = require('./trx/wallet');
 
 module.exports = {
-  BTC: BTC,
-  ETH: ETH,
-  EOS: EOS,
-  ZIL: ZIL,
-  HPB: HPB,
-  MEETONE: EOS,
-  BOS: EOS,
-  BNB: BNB,
-  TRX: TRX
+    BTC,
+    ETH,
+    EOS,
+    ZIL,
+    HPB,
+    MEETONE: EOS,
+    BOS: EOS,
+    BNB,
+    TRX
 };
