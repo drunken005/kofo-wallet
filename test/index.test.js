@@ -1,6 +1,6 @@
 const assert = require('assert');
 const _ = require('lodash');
-const KofoWallet = require('..');
+const KofoWallet = require('../lib');
 const {RawTransaction} = require('binance-utils');
 
 describe('KOFO-WALLET', () => {
