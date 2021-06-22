@@ -1,5 +1,5 @@
 # kofo wallet
-Kofo network supports blockchain wallet, which provides signature and private key and mnemonic HDWallet management.Currently supporting **`BTC/USDT`** **`ETH/ERC20`** **`ZILLIQA`**  **`HPB`**  **`EOS`** **`BOS`** **`MEETONE`** **`BNB`** **`TRON`** chain and currency.
+Kofo network supports blockchain wallet, which provides signature and private key and mnemonic HDWallet management.Currently supporting **`BTC/USDT`** **`ETH/ERC20`**  **`HPB`**  **`EOS`** **`BOS`** **`MEETONE`** **`BNB`** **`TRON`** chain and currency.
 This wallet does not have any communication with the full nodes of each chain. It is an offline wallet and only provides the rawTransaction signature returned by the gateway of KOFO network. High safety.
 
 **Note**: **TRON** wallet does not support transaction signatures
@@ -47,7 +47,7 @@ Print the current wallet support chain
 **return** String
 ```js
 Wallet.supportsChain
-//return 'kofo wallet supports chain:< BTC ETH EOS ZIL MEETONE BOS HPB BNB>'
+//return 'kofo wallet supports chain:< BTC ETH EOS MEETONE BOS HPB BNB>'
 ```
 ### Wallet.createWallets(network, walletType)
 Create all support chain wallets at once
@@ -63,14 +63,12 @@ let wallets = Wallet.createWallets();
 wallets.BTC.export()
 wallets.ETH.export()
 wallets.EOS.export()
-wallets.ZIL.export()
 
 //btc wallet type 'P2SH'
 wallets = Wallet.createWallets('livenet', 'P2SH');
 wallets.BTC.export()
 wallets.ETH.export()
-wallets.EOS.export()
-wallets.ZIL.export()
+wallets.EOS.export()]
 ```
 ### Wallet.createWallet(options)
 Specify blockchain to create an HDWallet using mnemonic
@@ -161,7 +159,7 @@ wallet.sign(rawTransaction);
 ```
 
 ### async Wallet.importKeyStoreWallet(options)
-Import the keystore encrypted file wallet, currently only ***ETH*** and ***ZIL*** and  ***HPB*** and ***BNB*** are supported
+Import the keystore encrypted file wallet, currently only ***ETH*** and ***HPB*** and ***BNB*** are supported
 
 **options**:
 * **chain** Chain name e.g ETH

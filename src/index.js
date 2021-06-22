@@ -96,7 +96,7 @@ class KofoWallet {
 
 
   /**
-   * Import the keystore encrypted file wallet, currently only ETH and ZIL are supported
+   * Import the keystore encrypted file wallet, currently only ETH are supported
    * @param chain Chain name e.g ETH
    * @param currency Currency name e.g ETH
    * @param keystore Keystore JSON

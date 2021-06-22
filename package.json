@@ -1,6 +1,6 @@
 {
   "name": "kofo-wallet",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Kofo network supports blockchain wallet, which provides signature and private key management",
   "main": "lib/index.js",
   "scripts": {
@@ -17,7 +17,6 @@
     "wallet",
     "blockchain",
     "kofo",
-    "zil",
     "eos",
     "btc",
     "tron",
@@ -36,7 +35,6 @@
   "homepage": "https://github.com/drunken005/kofo-wallet#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "@zilliqa-js/zilliqa": "^0.5.3",
     "binance-utils": "^1.0.2",
     "bip32": "^2.0.3",
     "bitcoinjs-lib": "^5.0.5",
